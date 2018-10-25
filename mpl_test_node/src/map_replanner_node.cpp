@@ -240,6 +240,10 @@ void addCloudCallback(const sensor_msgs::PointCloud::ConstPtr &msg) {
 
 }
 
+void setGoalCallback(const geometry_msgs::Pose::ConstPtr &msg) {
+  goal.pos = Vec3f(msg->position.x, msg->position.y, msg->position.z);
+}
+
 void subtreeCallback(const std_msgs::Int8::ConstPtr &msg) {
  if (replan_planner_.initialized())
     replan_planner_.getSubStateSpace(msg->data);
@@ -264,6 +268,9 @@ int main(int argc, char **argv) {
       nh.subscribe("add_cloud", 1, addCloudCallback);
   ros::Subscriber clear_cloud_sub =
       nh.subscribe("clear_cloud", 1, clearCloudCallback);
+  ros::Subscriber set_goal_sub =
+      nh.subscribe("set_goal", 1, setGoalCallback);
+
   map_pub = nh.advertise<planning_ros_msgs::VoxelMap>("voxel_map", 1, true);
   sg_pub = nh.advertise<sensor_msgs::PointCloud>("start_and_goal", 1, true);
 
