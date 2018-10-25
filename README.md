@@ -59,8 +59,8 @@ $ roslaunch test.launch
 Then, you can set a new goal and then replan by running:
 
 ```bash
-$ set_goal.sh
-$ replan.sh
+$ ./set_goal.sh
+$ ./replan.sh
 ```
 
 
