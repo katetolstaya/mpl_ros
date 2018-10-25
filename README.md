@@ -51,12 +51,17 @@ Following examples demonstrate some of these planners:
 #### Example 1 (plan in occ/voxel map)
 Simple test using the built-in data in a voxel map can be run using the following commands:
 ```bash
-$ cd ./mpl_test_node/launch/map_planner_node
+$ cd ./mpl_test_node/launch/map_replanner_node
 $ roslaunch rviz.launch
 $ roslaunch test.launch
 ```
-It also extracts the control commands for the generated trajectory and saves as
-`trajectory_commands.bag`.
+
+Then, you can set a new goal and then replan by running:
+
+```bash
+$ set_goal.sh
+$ replan.sh
+```
 
 
 The planning results are visualized in Rviz as following:
@@ -66,58 +71,5 @@ The planning results are visualized in Rviz as following:
 <img src="./mpl_test_node/samples/sample1.png" width="220"> | <img src="./mpl_test_node/samples/sample2.png" width="256">
 
 
-#### Example 2 (plan with moving obstacles)
-The planner can also take input polygonal map for collision checking. When the
-obstacles are not static, it's able to find the trajectory that avoids future
-collision:
-```bash
-$ cd ./mpl_test_node/launch/poly_map_planner_node
-$ roslaunch rviz.launch
-$ roslaunch test.launch
-```
-Static Obstacles | Moving Obtacles
-:--------------- | :--------------
-<img src="./mpl_test_node/samples/sample4.png" width="328"> | <img src="./mpl_test_node/samples/sample5.png" width="328">
 
-<img src="./mpl_test_node/samples/sample1.gif" width="696">
-
-Even if the trajectories of obstacles are non-linear, our planner could find the optimal maneuver for the robot with certain dynamic constraints through one plan:
-
-<img src="./mpl_test_node/samples/sample2.gif" width="696">
-
-#### Example 3 (multi-robot planning)
-The planner can be applied to a team of robots that move in a shared constrained environments.
-In the following demo, we show examples of two configurations, in which the planner is running
-in a centralized or decentralized mode.
-In the centralized mode, the planner runs once in the beginning.
-In the decentralized mode, each robot replans constantly at 2Hz with partial knowledge of its surrounding obstacles.
-
-Config1: 10 Robots Centralized | Config2: 16 Robots Centralized
-:----------------------------- | :-----------------------------
-<img src="./mpl_test_node/samples/sample3.gif" width="328"> | <img src="./mpl_test_node/samples/sample4.gif" width="328">
-
-Config1: 10 Robots Decentralized | Config2: 16 robots Decentralized
-:------------------------------- | :-------------------------------
-<img src="./mpl_test_node/samples/sample5.gif" width="328"> | <img src="./mpl_test_node/samples/sample6.gif" width="328">
-
-
-
-#### Example 4 (plan in SE(3) with ellispoid model)
-Another example using ellipsoid model can be found in `mpl_test_node/launch/ellipsoid_planner_node`, in which a point cloud is used as obstacles, and the robot is modeled as the ellipsoid. More information can be found in the paper ["Search-based Motion Planning for Aggressive Flight in SE(3)"](http://ieeexplore.ieee.org/document/8264768/).
-```bash
-$ cd ./mpl_test_node/launch/ellispoid_planner_node
-$ roslaunch rviz.launch
-$ roslaunch test.launch
-```
-<img src="./mpl_test_node/samples/sample3.png" width="328">
-
-## Maps
-The built-in maps are listed as below:
-
-Simple | Levine | Skir | Office
-:----- | :----- | :--- | :-----
-<img src="./mpl_test_node/maps/simple/simple.png" width="156"> |<img src="./mpl_test_node/maps/levine/levine.png" width="156"> |<img src="./mpl_test_node/maps/skir/skir.png" width="156"> |<img src="./mpl_test_node/maps/office/office.png" width="156">
-
-User can form their own maps using the `mapping_utils`, a launch file example is provided in `./mpl_test_node/launch/map_generator` for converting a STL file into voxel map.
-For details about the full utilities, please refer to [wiki](https://github.com/sikang/mpl_ros/wiki).
 
